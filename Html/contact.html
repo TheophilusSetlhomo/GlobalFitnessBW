@@ -8,9 +8,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 
-    <title></title> 
+    <title>Contact Global Fitness Botswana</title> 
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../CSS/cool.css">
 </head> 
 
 <body> 
@@ -29,7 +29,29 @@
 
     <main> 
 
-        <p> <a href="mailto:globalfitnessbw@gmail.com">EMAIL ADDRESS</a> </p> 
+        <h2>Contact Global Fitness Botswana</h2>
+
+        <p>
+            For membership questions, product enquiries, or general support, you can contact Global Fitness Botswana by email.
+        </p>
+
+        <div class="contact-card">
+            <h3>Email Address</h3>
+            <p><a href="mailto:globalfitnessBW@gmail.com">globalfitnessBW@gmail.com</a></p>
+        </div>
+
+        <form class="contact-form" action="mailto:globalfitnessBW@gmail.com" method="post" enctype="text/plain">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
 
     </main> 
 

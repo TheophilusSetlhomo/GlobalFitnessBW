@@ -10,44 +10,59 @@
 
     <title>Sign Up page</title> 
  
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="../CSS/cool.css">
 </head>
 
 <body> 
 
     <header> 
 
-        <h1>Navigation</h1> 
+        <h1>Sign Up</h1> 
 
         <nav> 
 
             <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart</a>
 
         </nav> 
 
     </header> 
 
-    <p> Sign up to GlobalFitnessBW</p>  
-        <form action="#" method="post">
+    <main>
+        <h2>Sign up to GlobalFitnessBW</h2>
 
-        <label>Names:</label><br>
-        <input type="text" name="fullname" required><br><br>
+        <p>Create a customer profile so the site can remember your details when you return.</p>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+        <form id="signup-form" class="signup-form" action="#" method="post">
 
-        <label>Age:</label><br>
-        <input type="number" name="age" min="16" required><br><br>
+            <label for="fullname">Names:</label>
+            <input type="text" id="fullname" name="fullname" required>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-        <label>Confirm Password:</label><br>
-        <input type="password" name="confirm_password" required><br><br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="16" required>
 
-        <button type="submit">Sign Up</button>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
 
-    </form>
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm_password" required>
+
+            <button type="submit" class="btn">Sign Up</button>
+
+        </form>
+
+        <p id="signup-message" class="signup-message"></p>
+
+        <section class="saved-customer">
+            <h2>Saved Customer Details</h2>
+            <p id="saved-customer-details">No customer details saved yet.</p>
+            <button type="button" class="btn" id="clear-customer">Clear saved details</button>
+        </section>
+    </main>
 
   <footer> 
 
@@ -55,6 +70,57 @@
 
   </footer> 
 
+    <script>
+        const signupForm = document.getElementById("signup-form");
+        const signupMessage = document.getElementById("signup-message");
+        const savedCustomerDetails = document.getElementById("saved-customer-details");
+        const clearCustomer = document.getElementById("clear-customer");
+
+        function showSavedCustomer() {
+            const customer = JSON.parse(localStorage.getItem("customer"));
+
+            if (!customer) {
+                savedCustomerDetails.textContent = "No customer details saved yet.";
+                return;
+            }
+
+            savedCustomerDetails.innerHTML =
+                "<strong>Name:</strong> " + customer.fullname + "<br>" +
+                "<strong>Email:</strong> " + customer.email + "<br>" +
+                "<strong>Age:</strong> " + customer.age;
+        }
+
+        signupForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            if (password !== confirmPassword) {
+                signupMessage.textContent = "Passwords do not match.";
+                return;
+            }
+
+            const customer = {
+                fullname: document.getElementById("fullname").value,
+                email: document.getElementById("email").value,
+                age: document.getElementById("age").value
+            };
+
+            localStorage.setItem("customer", JSON.stringify(customer));
+            signupMessage.textContent = "Your signup details have been saved.";
+            signupForm.reset();
+            showSavedCustomer();
+        });
+
+        clearCustomer.addEventListener("click", function() {
+            localStorage.removeItem("customer");
+            signupMessage.textContent = "Saved customer details have been cleared.";
+            showSavedCustomer();
+        });
+
+        showSavedCustomer();
+    </script>
  
 
 </body> 

@@ -10,7 +10,7 @@
 
     <title>SHOP</title> 
  
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../CSS/cool.css">
 </head>
 
 <body> 
@@ -21,7 +21,7 @@
 
         <nav> 
 
-            <a href="index.html">Home</a> |
+            <a href="index.html">Home</a>
             <a href="cart.html">Cart</a>
             <a href="contact.html">Contacts</a>
 
@@ -29,12 +29,58 @@
 
     </header> 
 
+    <main>
+        <h2>Shop Inventory</h2>
+
+        <div class="inventory-list">
+            <div class="inventory-item">
+                <span>Dumbells 15kg - BWP 200</span>
+                <button type="button" class="btn add-to-cart" data-name="Dumbells 15kg" data-price="200">Add to cart</button>
+            </div>
+
+            <div class="inventory-item">
+                <span>Yoga mats - BWP 100</span>
+                <button type="button" class="btn add-to-cart" data-name="Yoga mats" data-price="100">Add to cart</button>
+            </div>
+
+            <div class="inventory-item">
+                <span>Water bottle - BWP 50</span>
+                <button type="button" class="btn add-to-cart" data-name="Water bottle" data-price="50">Add to cart</button>
+            </div>
+
+            <div class="inventory-item">
+                <span>Compression shirt - BWP 150</span>
+                <button type="button" class="btn add-to-cart" data-name="Compression shirt" data-price="150">Add to cart</button>
+            </div>
+        </div>
+
+        <p id="cart-message" class="cart-message"></p>
+    </main>
+
 <footer> 
 
         <p>&copy; GlobalFitnessBW2026</p> 
 
 </footer> 
 
+    <script>
+        const buttons = document.querySelectorAll(".add-to-cart");
+        const cartMessage = document.getElementById("cart-message");
+
+        buttons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const item = {
+                    name: button.dataset.name,
+                    price: Number(button.dataset.price)
+                };
+
+                cart.push(item);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                cartMessage.textContent = item.name + " has been added to your cart.";
+            });
+        });
+    </script>
  
 
 </body> 
