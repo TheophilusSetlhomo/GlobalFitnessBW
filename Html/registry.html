@@ -24,7 +24,6 @@
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact Us</a>
-            <a href="registry.html">Sign Up</a>
             <a href="shop.html">Shop</a>
             <a href="cart.html">Cart</a>
 
@@ -45,8 +44,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
             <label for="age">Age:</label>
-            <input type="number" id="age" name="age" min="16" required>
+            <input type="text" id="age" name="age" readonly placeholder="Select your date of birth">
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
@@ -78,6 +80,33 @@
         const signupMessage = document.getElementById("signup-message");
         const savedCustomerDetails = document.getElementById("saved-customer-details");
         const clearCustomer = document.getElementById("clear-customer");
+        const dateOfBirth = document.getElementById("dob");
+        const ageInput = document.getElementById("age");
+
+        function calculateAge(birthDateValue) {
+            const today = new Date();
+            const birthDateParts = birthDateValue.split("-");
+            const birthDate = new Date(birthDateParts[0], birthDateParts[1] - 1, birthDateParts[2]);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            return age;
+        }
+
+        dateOfBirth.max = new Date().toISOString().split("T")[0];
+
+        dateOfBirth.addEventListener("change", function() {
+            if (!dateOfBirth.value) {
+                ageInput.value = "";
+                return;
+            }
+
+            ageInput.value = calculateAge(dateOfBirth.value);
+        });
 
         function showSavedCustomer() {
             const customer = JSON.parse(localStorage.getItem("customer"));
@@ -90,11 +119,21 @@
             savedCustomerDetails.innerHTML =
                 "<strong>Name:</strong> " + customer.fullname + "<br>" +
                 "<strong>Email:</strong> " + customer.email + "<br>" +
+                "<strong>Date of Birth:</strong> " + customer.dob + "<br>" +
                 "<strong>Age:</strong> " + customer.age;
         }
 
         signupForm.addEventListener("submit", function(event) {
             event.preventDefault();
+
+            const age = calculateAge(dateOfBirth.value);
+
+            if (age < 16) {
+                signupMessage.textContent = "You must be at least 16 years old to sign up.";
+                return;
+            }
+
+            ageInput.value = age;
 
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirm-password").value;
@@ -107,7 +146,9 @@
             const customer = {
                 fullname: document.getElementById("fullname").value,
                 email: document.getElementById("email").value,
-                age: document.getElementById("age").value
+                dob: dateOfBirth.value,
+                age: ageInput.value,
+                password: password
             };
 
             localStorage.setItem("customer", JSON.stringify(customer));
@@ -129,3 +170,8 @@
 </body> 
 
 </html> 
+
+
+
+
+

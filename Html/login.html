@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login page</title>
+
+    <link rel="stylesheet" href="../CSS/cool.css">
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Login</h1>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart</a>
+
+        </nav>
+
+    </header>
+
+    <main>
+        <h2>Login to GlobalFitnessBW</h2>
+
+        <p>Enter the email and password you used when signing up.</p>
+
+        <form id="login-form" class="signup-form" action="#" method="post">
+
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" name="login_email" required>
+
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="login_password" required>
+
+            <button type="submit" class="btn">Login</button>
+
+        </form>
+
+        <p id="login-message" class="signup-message"></p>
+
+        <section class="saved-customer">
+            <h2>Login Status</h2>
+            <p id="login-status">You are not logged in.</p>
+            <button type="button" class="btn" id="logout-button">Logout</button>
+        </section>
+    </main>
+
+    <footer>
+
+        <p>&copy; GlobalFitnessBW2026</p>
+
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById("login-form");
+        const loginMessage = document.getElementById("login-message");
+        const loginStatus = document.getElementById("login-status");
+        const logoutButton = document.getElementById("logout-button");
+
+        function showLoginStatus() {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+
+            if (!loggedInUser) {
+                loginStatus.textContent = "You are not logged in.";
+                return;
+            }
+
+            loginStatus.textContent = "Logged in as " + loggedInUser + ".";
+        }
+
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const customer = JSON.parse(localStorage.getItem("customer"));
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            if (!customer) {
+                loginMessage.textContent = "No account found. Please sign up first.";
+                return;
+            }
+
+            if (!customer.password) {
+                loginMessage.textContent = "This account was saved before login was added. Please sign up again.";
+                return;
+            }
+
+            if (email === customer.email && password === customer.password) {
+                localStorage.setItem("loggedInUser", customer.fullname);
+                localStorage.setItem("loggedInEmail", customer.email);
+                loginMessage.textContent = "Login successful. Taking you to the shop...";
+                showLoginStatus();
+                setTimeout(function() {
+                    window.location.href = "shop.html";
+                }, 1000);
+                return;
+            }
+
+            loginMessage.textContent = "Incorrect email or password.";
+        });
+
+        logoutButton.addEventListener("click", function() {
+            localStorage.removeItem("loggedInUser");
+            localStorage.removeItem("loggedInEmail");
+            loginMessage.textContent = "You have been logged out.";
+            showLoginStatus();
+        });
+
+        showLoginStatus();
+    </script>
+
+</body>
+
+</html>
+
+
+

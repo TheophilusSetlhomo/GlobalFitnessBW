@@ -24,8 +24,6 @@
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact Us</a>
-            <a href="registry.html">Sign Up</a>
-            <a href="shop.html">Shop</a>
             <a href="cart.html">Cart</a>
 
         </nav> 
@@ -37,21 +35,25 @@
 
         <div class="inventory-list">
             <div class="inventory-item">
+                <img src="../Images/dumbbells-15kg.jpg" alt="Pair of black 15 kilogram dumbbells" class="product-image">
                 <span>Dumbells 15kg - BWP 200</span>
                 <button type="button" class="btn add-to-cart" data-name="Dumbells 15kg" data-price="200">Add to cart</button>
             </div>
 
             <div class="inventory-item">
+                <img src="../Images/yoga-mat.jpg" alt="Rolled grey yoga mat" class="product-image">
                 <span>Yoga mats - BWP 100</span>
                 <button type="button" class="btn add-to-cart" data-name="Yoga mats" data-price="100">Add to cart</button>
             </div>
 
             <div class="inventory-item">
+                <img src="../Images/water-bottle.jpg" alt="Black reusable gym water bottle" class="product-image">
                 <span>Water bottle - BWP 50</span>
                 <button type="button" class="btn add-to-cart" data-name="Water bottle" data-price="50">Add to cart</button>
             </div>
 
             <div class="inventory-item">
+                <img src="../Images/compression-shirt.jpg" alt="Black long sleeve compression workout shirt" class="product-image">
                 <span>Compression shirt - BWP 150</span>
                 <button type="button" class="btn add-to-cart" data-name="Compression shirt" data-price="150">Add to cart</button>
             </div>
@@ -70,16 +72,33 @@
         const buttons = document.querySelectorAll(".add-to-cart");
         const cartMessage = document.getElementById("cart-message");
 
+        function getCartKey() {
+            const loggedInEmail = localStorage.getItem("loggedInEmail");
+
+            if (!loggedInEmail) {
+                return null;
+            }
+
+            return "cart_" + loggedInEmail;
+        }
+
         buttons.forEach(function(button) {
             button.addEventListener("click", function() {
-                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const cartKey = getCartKey();
+
+                if (!cartKey) {
+                    cartMessage.textContent = "Please login before adding items to your cart.";
+                    return;
+                }
+
+                const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
                 const item = {
                     name: button.dataset.name,
                     price: Number(button.dataset.price)
                 };
 
                 cart.push(item);
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem(cartKey, JSON.stringify(cart));
                 cartMessage.textContent = item.name + " has been added to your cart.";
             });
         });
@@ -89,3 +108,7 @@
 </body> 
 
 </html> 
+
+
+
+

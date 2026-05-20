@@ -15,14 +15,20 @@
 
 <body> 
 
-    <header> 
-        <img src="logo.jpg" alt="Logo" class="logo">
+    <header class="home-header"> 
+        <div class="home-topbar">
+            <img src="logo.jpg" alt="Logo" class="logo">
+
+            <div class="home-account-links">
+                <a href="registry.html">Sign Up</a>
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+
         <h1>WELCOME TO DAY ONE OF YOUR FITNESS JOURNEY</h1>
-        <nav>
-            <a href="index.html">Home</a>
+        <nav class="home-nav">
             <a href="about.html">About</a>
             <a href="contact.html">Contact Us</a>
-            <a href="registry.html">Sign Up</a>
             <a href="shop.html">Shop</a>
             <a href="cart.html">Cart</a>
         </nav>
@@ -59,12 +65,27 @@
 
         <p>Our facility offers a wide variety of services and training environments, including:</p>
 
-        <ul> 
-            <li>Swimming pools</li>
-            <li>Basketball courts</li>
-            <li>Boxing rings</li>
-            <li>Fully equipped gym sections for cardio, legs, pecs, weights, and more</li>    
-        </ul>
+        <div class="services-grid"> 
+            <div class="service-item">
+                <h3>Swimming pools</h3>
+                <img src="../Images/swimming-pool.jpg" alt="Indoor swimming pool with lane dividers" class="service-image">
+            </div>
+
+            <div class="service-item">
+                <h3>Basketball courts</h3>
+                <img src="../Images/basketball-court.jpg" alt="Indoor basketball court with hoop" class="service-image">
+            </div>
+
+            <div class="service-item">
+                <h3>Boxing rings</h3>
+                <img src="../Images/boxing-ring.jpg" alt="Indoor boxing ring training area" class="service-image">
+            </div>
+
+            <div class="service-item service-text-only">
+                <h3>Fully equipped gym sections</h3>
+                <p>Cardio, legs, pecs, weights, and more.</p>
+            </div>    
+        </div>
 
         <section class="notice-box">
             <h2>Important Notice</h2>
@@ -86,3 +107,7 @@
 </body> 
 
 </html> 
+
+
+
+

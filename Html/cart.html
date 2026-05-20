@@ -24,9 +24,7 @@
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact Us</a>
-            <a href="registry.html">Sign Up</a>
             <a href="shop.html">Shop</a>
-            <a href="cart.html">Cart</a>
 
         </nav> 
 
@@ -52,9 +50,27 @@
         const cartTotal = document.getElementById("cart-total");
         const clearCart = document.getElementById("clear-cart");
 
+        function getCartKey() {
+            const loggedInEmail = localStorage.getItem("loggedInEmail");
+
+            if (!loggedInEmail) {
+                return null;
+            }
+
+            return "cart_" + loggedInEmail;
+        }
+
         function showCart() {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartKey = getCartKey();
             cartItems.innerHTML = "";
+
+            if (!cartKey) {
+                cartItems.innerHTML = "<li>Please login to view your saved cart.</li>";
+                cartTotal.textContent = "Total: BWP 0";
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
 
             if (cart.length === 0) {
                 cartItems.innerHTML = "<li>Your cart is empty.</li>";
@@ -75,7 +91,11 @@
         }
 
         clearCart.addEventListener("click", function() {
-            localStorage.removeItem("cart");
+            const cartKey = getCartKey();
+
+            if (cartKey) {
+                localStorage.removeItem(cartKey);
+            }
             showCart();
         });
 
@@ -86,3 +106,7 @@
 </body> 
 
 </html> 
+
+
+
+
